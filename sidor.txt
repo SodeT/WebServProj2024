@@ -1,0 +1,14 @@
+rentanairstrike.com
+
+Log in
+Admin dashboard (edit/view firemissions + create observer)
+Observer dashboard (create/edit/view firemissions)
+Battery dashboard (view/shoot firemissions)
+
+Create observer
+Create battery
+
+Create firemission
+Edit firemission
+Confirm firemission
+Shoot firemission
