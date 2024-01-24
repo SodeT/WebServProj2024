@@ -1,16 +1,15 @@
-rentanairstrike.com
+Gambling site
 
 sidor som behöver skapas
+/
+/Login
+/signup
 
-Log in
-Admin dashboard (edit/view firemissions + create observer)
-Observer dashboard (create/edit/view firemissions)
-Battery dashboard (view/shoot firemissions)
+/play
+/boosters
+/cards
+/events
+/prices
 
-Create observer
-Create battery
-
-Create firemission
-Edit firemission
-Confirm firemission
-Shoot firemission
+admin can crud boosters, cards, price och events
+user can buy boosters, cards, events and win prices
