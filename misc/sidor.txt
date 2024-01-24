@@ -12,4 +12,8 @@ sidor som behöver skapas
 /prices
 
 admin can crud boosters, cards, price och events
-user can buy boosters, cards, events and win prices
+user can buy boosters, cards, events and redeem prices with their tokens
+
+
+# TODO: 
+Add logout functionality

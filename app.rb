@@ -4,6 +4,7 @@ require 'sqlite3'
 require 'bcrypt'
 
 enable :sessions
+set :session_secret, 'random-key'
 
 def all_of(*paths)
     return /(#{paths.join("|")})/
@@ -15,7 +16,16 @@ def open_db(path)
     return db
 end
 
-#before(all_of("/play", "/boosters", "/cards", "/events", "/prices"))
+before(all_of("/play", "/boosters", "/cards", "/events", "/prices")) do
+    db = open_db("db/db.sqlite3")
+    id = session[:id]
+
+    result = db.execute("SELECT COUNT(1) FROM users WHERE id = ?", id).first
+
+    if result == nil
+        redirect("/login")
+    end
+end
 
 get('/')  do
     slim(:home)
