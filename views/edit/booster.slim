@@ -1,0 +1,6 @@
+h2 Edit booster with ID: #{booster['id']}
+	form action="/admin/boosters/#{booster['id']}/edit" method="post"
+		input type="text" name="name" placeholder="Name" 
+		input type="number" name="multiplier" placeholder="Multiplier"
+		input type="number" name="price" placeholder="Price"
+		input type="submit" value="Edit"

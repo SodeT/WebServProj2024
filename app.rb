@@ -10,9 +10,9 @@ enable :sessions
 # set :session_secret, 'random-key'
 
 permissions = {
-  'user': 0,
-  'creator': 1,
-  'admin': 2
+  'user' => 0,
+  'creator' => 1,
+  'admin' => 2
 }
 
 def all_of(*paths)
@@ -33,15 +33,26 @@ before(all_of('/play', '/boosters', '/cards', '/events', '/prices')) do
   redirect('/login') if result.nil?
 end
 
+before('/admin/*') do
+  db = open_db('db/db.sqlite3')
+  id = session[:id]
+
+  user = db.execute('SELECT permissions FROM users WHERE id = ?', id).first
+
+  p user['permissions']
+  p permissions['admin']
+  redirect('/') if user['permissions'].to_i != permissions['admin']
+end
+
 get('/') do
   slim(:home)
 end
 
 get('/signup') do
-  slim(:signup)
+  slim(:'account/signup')
 end
 
-post('/signuppost') do
+post('/signup') do
   username = params[:username]
   password = params[:password]
   password_confirm = params[:password_confirm]
@@ -61,10 +72,10 @@ post('/signuppost') do
 end
 
 get('/login') do
-  slim(:login)
+  slim(:'account/login')
 end
 
-post('/loginpost') do
+post('/login') do
   db = open_db('db/db.sqlite3')
   username = params[:username]
   password = params[:password]
@@ -128,7 +139,7 @@ get('/admin') do
   slim(:admin, locals: { boosters: boo, cards: car, events: eve, prices: pri })
 end
 
-post('/boosters/new') do
+post('/admin/boosters/new') do
   db = open_db('db/db.sqlite3')
   name = params['name']
   multiplier = params['multiplier'].to_i
@@ -137,14 +148,32 @@ post('/boosters/new') do
   redirect('/admin')
 end
 
-post('/boosters/:id/delete') do
+post('/admin/boosters/:id/delete') do
   db = open_db('db/db.sqlite3')
   id = params[:id].to_i
   db.execute('DELETE FROM boosters WHERE id = ?', id)
+  db.execute('DELETE FROM user_booster_rel WHERE booster_id = ?', id)
   redirect('/admin')
 end
 
-post('/cards/new') do
+get('/admin/boosters/:id/edit') do
+  db = open_db('db/db.sqlite3')
+  id = params[:id].to_i
+  data = db.execute('SELECT * FROM boosters WHERE id = ?', id)
+  slim(:'boosters/edit', locals: { booster: data })
+end
+
+post('/admin/boosters/:id/edit') do
+  db = open_db('db/db.sqlite3')
+  id = params[:id]
+  name = params['name']
+  multiplier = params['multiplier'].to_i
+  price = params['price'].to_i
+  db.execute('UPDATE boosters SET name = ?, multiplier = ?, price = ? WHERE id = ?', name, multiplier, price, id)
+  redirect('/admin')
+end
+
+post('/admin/cards/new') do
   db = open_db('db/db.sqlite3')
   name = params['name']
   power = params['power'].to_i
@@ -152,14 +181,14 @@ post('/cards/new') do
   redirect('/admin')
 end
 
-post('/cards/:id/delete') do
+post('/admin/cards/:id/delete') do
   db = open_db('db/db.sqlite3')
   id = params[:id].to_i
   db.execute('DELETE FROM cards WHERE id = ?', id)
   redirect('/admin')
 end
 
-post('/events/new') do
+post('/admin/events/new') do
   db = open_db('db/db.sqlite3')
   name = params['name']
   reward = params['reward'].to_i
@@ -169,14 +198,15 @@ post('/events/new') do
   redirect('/admin')
 end
 
-post('/events/:id/delete') do
+post('/admin/events/:id/delete') do
   db = open_db('db/db.sqlite3')
   id = params[:id].to_i
   db.execute('DELETE FROM events WHERE id = ?', id)
+  db.execute('DELETE FROM user_booster_rel WHERE booster_id = ?', id)
   redirect('/admin')
 end
 
-post('/prices/new') do
+post('/admin/prices/new') do
   db = open_db('db/db.sqlite3')
   name = params['name']
   value = params['value'].to_i
@@ -185,7 +215,7 @@ post('/prices/new') do
   redirect('/admin')
 end
 
-post('/prices/:id/delete') do
+post('/admin/prices/:id/delete') do
   db = open_db('db/db.sqlite3')
   id = params[:id].to_i
   db.execute('DELETE FROM prices WHERE id = ?', id)

@@ -8,11 +8,11 @@ h2 Welcome to the admin dashboard!
 			p price: #{booster['price']}
 			p multiplier: #{booster['multiplier']}X
 
-			a href="/boosters/#{booster['id']}/edit" Edit
-			form action="/boosters/#{booster['id']}/delete" method="post"
+			a href="/admin/boosters/#{booster['id']}/edit" Edit
+			form action="/admin/boosters/#{booster['id']}/delete" method="post"
 				input type="submit" value="Delete"
 
-		form action="/boosters/new" method="post"
+		form action="/admin/boosters/new" method="post"
 			input type="text" name="name" placeholder="Name"
 			input type="number" name="multiplier" placeholder="Multiplier"
 			input type="number" name="price" placeholder="Price"
@@ -25,11 +25,11 @@ h2 Welcome to the admin dashboard!
 			p name: #{card['name']}
 			p power: #{card['power']}
 
-			a href="/cards/#{card['id']}/edit" Edit
-			form action="/cards/#{card['id']}/delete" method="post"
+			a href="/admin/cards/#{card['id']}/edit" Edit
+			form action="/admin/cards/#{card['id']}/delete" method="post"
 				input type="submit" value="Delete"
 
-		form action="/cards/new" method="post"
+		form action="/admin/cards/new" method="post"
 			input type="text" name="name" placeholder="Name"
 			input type="number" name="power" placeholder="Power"
 			input type="submit" value="Create"
@@ -42,11 +42,11 @@ h2 Welcome to the admin dashboard!
 			p condition: #{event['condition']}
 			p fee: #{event['fee']}
 
-			a href="/events/#{event['id']}/edit" Edit
-			form action="/events/#{event['id']}/delete" method="post"
+			a href="/admin/events/#{event['id']}/edit" Edit
+			form action="/admin/events/#{event['id']}/delete" method="post"
 				input type="submit" value="Delete"
 
-		form action="/events/new" method="post"
+		form action="/admin/events/new" method="post"
 			input type="text" name="name" placeholder="Name"
 			input type="number" name="reward" placeholder="Reward"
 			input type="number" name="condition" placeholder="Condition"
@@ -60,11 +60,11 @@ h2 Welcome to the admin dashboard!
 			p value: #{price['value']}
 			p description: #{price['description']}
 
-			a href="/prices/#{price['id']}/edit" Edit
-			form action="/prices/#{price['id']}/delete" method="post"
+			a href="/admin/prices/#{price['id']}/edit" Edit
+			form action="/admin/prices/#{price['id']}/delete" method="post"
 				input type="submit" value="Delete"
 
-		form action="/prices/new" method="post"
+		form action="/admin/prices/new" method="post"
 			input type="text" name="name" placeholder="Name"
 			input type="number" name="value" placeholder="Value"
 			input type="text" name="description" placeholder="Description"
