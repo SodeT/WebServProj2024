@@ -34,7 +34,7 @@ header {
     
     align-items: center;
     justify-content: center;
-    width: fit-content;
+	width: 70vw;
     background-color: white;
     border-radius: 10px;
 }
@@ -42,6 +42,17 @@ header {
 form {
     display: flex;
     flex-direction: column;
+}
 
-    width: 500px;
+#dashboard {
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+}
+
+.editable {
+	display: flex;
+	flex-direction: column;
+	height: fit-content;
 }

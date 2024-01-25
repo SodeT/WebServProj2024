@@ -1,0 +1,72 @@
+h2 Welcome to the admin dashboard!
+
+#dashboard
+	.editable
+		h3 Boosters:
+		- boosters.each do |booster|
+			p name: #{booster['name']}
+			p price: #{booster['price']}
+			p multiplier: #{booster['multiplier']}X
+
+			a href="/boosters/#{booster['id']}/edit" Edit
+			form action="/boosters/#{booster['id']}/delete" method="post"
+				input type="submit" value="Delete"
+
+		form action="/boosters/new" method="post"
+			input type="text" name="name" placeholder="Name"
+			input type="number" name="multiplier" placeholder="Multiplier"
+			input type="number" name="price" placeholder="Price"
+			input type="submit" value="Create"
+			
+
+	.editable
+		h3 Cards:
+		- cards.each do |card|
+			p name: #{card['name']}
+			p power: #{card['power']}
+
+			a href="/cards/#{card['id']}/edit" Edit
+			form action="/cards/#{card['id']}/delete" method="post"
+				input type="submit" value="Delete"
+
+		form action="/cards/new" method="post"
+			input type="text" name="name" placeholder="Name"
+			input type="number" name="power" placeholder="Power"
+			input type="submit" value="Create"
+			
+	.editable
+		h3 Events:
+		- events.each do |event|
+			p name: #{event['name']}
+			p reward: #{event['reward']}
+			p condition: #{event['condition']}
+			p fee: #{event['fee']}
+
+			a href="/events/#{event['id']}/edit" Edit
+			form action="/events/#{event['id']}/delete" method="post"
+				input type="submit" value="Delete"
+
+		form action="/events/new" method="post"
+			input type="text" name="name" placeholder="Name"
+			input type="number" name="reward" placeholder="Reward"
+			input type="number" name="condition" placeholder="Condition"
+			input type="number" name="fee" placeholder="Fee"
+			input type="submit" value="Create"
+
+	.editable
+		h3 Prices:
+		- prices.each do |price|
+			p name: #{price['name']}
+			p value: #{price['value']}
+			p description: #{price['description']}
+
+			a href="/prices/#{price['id']}/edit" Edit
+			form action="/prices/#{price['id']}/delete" method="post"
+				input type="submit" value="Delete"
+
+		form action="/prices/new" method="post"
+			input type="text" name="name" placeholder="Name"
+			input type="number" name="value" placeholder="Value"
+			input type="text" name="description" placeholder="Description"
+			input type="submit" value="Create"
+

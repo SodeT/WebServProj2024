@@ -1,0 +1,9 @@
+h2 Take part in events to earn bonuses uppon completion!
+
+h3 Current events:
+- events.each do |event|
+	p #{event['name']}
+	p Entry fee: #{event['fee']}
+	p Your recieve: #{event['reward']} tokens
+	form action="/events/buy/#{event['id']}" methdo="post"
+		input type="submit" value="Purchase!"
