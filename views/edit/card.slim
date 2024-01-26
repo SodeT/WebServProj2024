@@ -1,0 +1,6 @@
+h2 Edit card with ID: #{card['id']}
+
+form action="/admin/cards/#{card['id']}/edit" method="post"
+	input type="text" name="name" placeholder="Name" value="#{card['name']}"
+	input type="text" name="power" placeholder="Power" value="#{card['power']}"
+	input type="submit" value="Edit"

@@ -1,0 +1,7 @@
+h2 Edit price with ID: #{price['id']}
+
+form action="/admin/prices/#{price['id']}/edit" method="post"
+	input type="text" name="name" placeholder="Name" value="#{price['name']}"
+	input type="text" name="value" placeholder="Value" value="#{price['value']}"
+	input type="text" name="description" placeholder="Description" value="#{price['description']}"
+	input type="submit" value="Edit"

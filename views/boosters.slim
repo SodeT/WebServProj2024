@@ -3,6 +3,6 @@ h2 Buy boosters to increase your winnings!
 h3 Available boosters:
 - boosters.each do |booster|
 	p #{booster['name']}
-	p #{booster['miltiplier']}X
-	form action="/boosters/buy/#{booster['id']}" methdo="post"
+	p #{booster['multiplier']}X
+	form action="/boosters/#{booster['id']}/buy" methdo="post"
 		input type="submit" value="Purchase!"

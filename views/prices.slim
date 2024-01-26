@@ -5,6 +5,6 @@ h3 Available prices:
 - prices.each do |price|
 	p The #{price['name']} with a value of: #{price['value']}!
 	p #{price['description']}
-	form action="/prices/redeem/#{price['id']}" method="post"
+	form action="/prices/#{price['id']}/redeem" method="post"
 		input type="submit" value="Redeem!"
 	
