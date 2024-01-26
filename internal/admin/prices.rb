@@ -1,5 +1,5 @@
 post('/admin/prices/new') do
-  db = open_db('db/db.sqlite3')
+  db = open_db
   name = params['name']
   value = params['value'].to_i
   description = params['description']
@@ -8,21 +8,21 @@ post('/admin/prices/new') do
 end
 
 post('/admin/prices/:id/delete') do
-  db = open_db('db/db.sqlite3')
+  db = open_db
   id = params[:id].to_i
   db.execute('DELETE FROM prices WHERE id = ?', id)
   redirect('/admin')
 end
 
 get('/admin/prices/:id/edit') do
-  db = open_db('db/db.sqlite3')
+  db = open_db
   id = params[:id].to_i
   data = db.execute('SELECT * FROM prices WHERE id = ?', id).first
   slim(:'edit/price', locals: { price: data })
 end
 
 post('/admin/prices/:id/edit') do
-  db = open_db('db/db.sqlite3')
+  db = open_db
   id = params[:id]
   name = params['name']
   value = params['value'].to_i

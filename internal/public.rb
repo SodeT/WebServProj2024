@@ -12,11 +12,11 @@ post('/signup') do
   password_confirm = params[:password_confirm]
   permissions = params[:permissions].to_i
 
-  return "Passwords don't match..." if password != password_confirm
+  show_error("Passwords don't match...", '/signup') if password != password_confirm
 
   pwd_hash = BCrypt::Password.create(password)
-  db = open_db('db/db.sqlite3')
-  db.execute('INSERT INTO users (username, pwd_hash, permissions, tokens) VALUES (?,?,?,?)', username, pwd_hash, permissions, 0)
+  db = open_db
+  db.execute('INSERT INTO users (username, pwd_hash, permissions, tokens) VALUES (?,?,?,?)', username, pwd_hash, permissions, 100)
   user = db.execute('SELECT * FROM users WHERE username = ?', username).first
   session[:id] = user['id']
   session[:username] = user['username']
@@ -29,7 +29,7 @@ get('/login') do
 end
 
 post('/login') do
-  db = open_db('db/db.sqlite3')
+  db = open_db
   username = params[:username]
   password = params[:password]
 
@@ -41,8 +41,12 @@ post('/login') do
     session[:id] = user['id']
     session[:username] = user['username']
     redirect('/play')
-  else
-    'Fel lösenord...'
   end
+  show_error('Incorrect password...', '/login')
 end
 
+get('/error') do
+  err = session[:error]
+  url = session[:url]
+  slim(:error, locals: { error: err, url: url })
+end

@@ -15,5 +15,6 @@ admin can crud boosters, cards, price och events
 user can buy boosters, cards, events and redeem prices with their tokens
 
 
-# TODO: 
+# TODO:
 Add logout functionality
+Add error handeling page

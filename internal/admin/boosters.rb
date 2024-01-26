@@ -1,5 +1,5 @@
 post('/admin/boosters/new') do
-  db = open_db('db/db.sqlite3')
+  db = open_db
   name = params['name']
   multiplier = params['multiplier'].to_i
   price = params['price'].to_i
@@ -8,7 +8,7 @@ post('/admin/boosters/new') do
 end
 
 post('/admin/boosters/:id/delete') do
-  db = open_db('db/db.sqlite3')
+  db = open_db
   id = params[:id].to_i
   db.execute('DELETE FROM boosters WHERE id = ?', id)
   db.execute('DELETE FROM user_boosters_rel WHERE booster_id = ?', id)
@@ -16,14 +16,14 @@ post('/admin/boosters/:id/delete') do
 end
 
 get('/admin/boosters/:id/edit') do
-  db = open_db('db/db.sqlite3')
+  db = open_db
   id = params[:id].to_i
   data = db.execute('SELECT * FROM boosters WHERE id = ?', id).first
   slim(:'edit/booster', locals: { booster: data })
 end
 
 post('/admin/boosters/:id/edit') do
-  db = open_db('db/db.sqlite3')
+  db = open_db
   id = params[:id]
   name = params['name']
   multiplier = params['multiplier'].to_i

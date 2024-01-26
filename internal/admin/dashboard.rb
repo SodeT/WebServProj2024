@@ -1,5 +1,5 @@
 get('/admin') do
-  db = open_db('db/db.sqlite3')
+  db = open_db
 
   boo = db.execute('SELECT * FROM boosters')
   car = db.execute('SELECT * FROM cards')

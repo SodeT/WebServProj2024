@@ -4,5 +4,5 @@ h3 Available boosters:
 - boosters.each do |booster|
 	p #{booster['name']}
 	p #{booster['multiplier']}X
-	form action="/boosters/#{booster['id']}/buy" methdo="post"
+	form action="/boosters/#{booster['id']}/buy" method="post"
 		input type="submit" value="Purchase!"
