@@ -17,4 +17,3 @@ user can buy boosters, cards, events and redeem prices with their tokens
 
 # TODO:
 Add logout functionality
-Add error handeling page

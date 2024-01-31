@@ -1,9 +1,9 @@
 get('/play') do
   id = session['id']
   db = open_db
-  user = db.execute('SELECT * FROM users WHERE id = ?', id).first
+  user = get_user(id)
 
-  boosters = get_boosters(id)
+  boosters = get_user_boosters(id)
   cards = get_cards(id)
   events = get_events(id)
   prices = get_prices(id)
@@ -15,7 +15,7 @@ post('/spin') do
   user_id = session['id']
   db = open_db
 
-  user = db.execute('SELECT * FROM users WHERE id = ?', user_id).first
+  user = get_user(user_id)
 
   cost = 30
   show_error('Not enough tokens...', '/play') if user['tokens'] < cost
@@ -36,9 +36,8 @@ post('/spin') do
 end
 
 get('/boosters') do
-  db = open_db
-  data = db.execute('SELECT * FROM boosters ORDER BY price')
-  slim(:boosters, locals: { boosters: data })
+  boosters = get_boosters
+  slim(:boosters, locals: { boosters: boosters })
 end
 
 post('/boosters/:id/buy') do
@@ -46,29 +45,27 @@ post('/boosters/:id/buy') do
   booster_id = params[:id].to_i
   user_id = session[:id]
 
-  result = db.execute('SELECT * FROM user_booster_rel WHERE user_id = ? AND booster_id = ?', user_id, booster_id)
+  user_boosters = get_user_booster_rel(user_id, booster_id)
 
-  show_error('You already own this booster...', '/boosters') unless result.empty?
+  show_error('You already own this booster...', '/boosters') unless user_boosters.empty?
 
-  data = db.execute('SELECT users.tokens, boosters.price FROM users INNER JOIN boosters ON boosters.id = ? WHERE users.id = ?', booster_id, user_id).first
+  data = get_user_booster_join(user_id, booster_id)
 
   show_error("You don't have enough tokens to buy this booster...", '/boosters') if data['tokens'] < data['price']
 
-  db.execute('INSERT INTO user_booster_rel (user_id, booster_id) VALUES (?, ?)', user_id, booster_id)
-  db.execute('UPDATE users SET tokens = tokens - ? WHERE id = ?', data['price'], user_id)
+  make_user_booster_rel(user_id, booster_id)
+  add_user_tokens(user_id, -data['price'])
   redirect('/boosters')
 end
 
 get('/cards') do
-  db = open_db
-  data = db.execute('SELECT * FROM cards ORDER BY power')
-  slim(:cards, locals: { cards: data })
+  cards = get_cards
+  slim(:cards, locals: { cards: cards })
 end
 
 get('/events') do
-  db = open_db
-  data = db.execute('SELECT * FROM events ORDER BY reward')
-  slim(:events, locals: { events: data })
+  events = get_events
+  slim(:events, locals: { events: events })
 end
 
 post('/events/:id/buy') do
@@ -100,13 +97,14 @@ post('/prices/:id/buy') do
   price_id = params[:id].to_i
   user_id = session[:id]
 
-  price = db.execute('SELECT * FROM prices WHERE id = ?', event_id).first
+  price = db.execute('SELECT * FROM prices WHERE id = ?', price_id).first
+  user = db.execute('SELECT * FROM users WHERE id = ?', user_id).first
 
-  show_error('You already own this event...', '/events') if price['user_id'] == user_id
-  show_error("You don't have enough tokens to redeem this price...", '/events') if price['tokens'] < data['value']
+  show_error('You have already redeemed this price...', '/events') if price['user_id'] == user_id
+  show_error("You don't have enough tokens to redeem this price...", '/events') if user['tokens'] < price['value']
 
   db.execute('UPDATE prices SET user_id = ? WHERE id = ?', user_id, price_id)
-  db.execute('UPDATE users SET tokens = tokens - ? WHERE id = ?', data['value'], user_id)
+  db.execute('UPDATE users SET tokens = tokens - ? WHERE id = ?', price['value'], user_id)
 
   redirect('/prices')
 end

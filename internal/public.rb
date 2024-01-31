@@ -16,8 +16,8 @@ post('/signup') do
 
   pwd_hash = BCrypt::Password.create(password)
   db = open_db
-  db.execute('INSERT INTO users (username, pwd_hash, permissions, tokens) VALUES (?,?,?,?)', username, pwd_hash, permissions, 100)
-  user = db.execute('SELECT * FROM users WHERE username = ?', username).first
+  new_user(username, pwd_hash, permissions)
+  user = get_user_by_name(username)
   session[:id] = user['id']
   session[:username] = user['username']
 
@@ -33,7 +33,7 @@ post('/login') do
   username = params[:username]
   password = params[:password]
 
-  user = db.execute('SELECT * FROM users WHERE username = ?', username).first
+  user = get_user_by_name(username)
 
   pwd_hash = user['pwd_hash']
 
