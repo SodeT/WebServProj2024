@@ -1,10 +1,10 @@
 get('/admin') do
   db = open_db
 
-  boo = db.execute('SELECT * FROM boosters')
-  car = db.execute('SELECT * FROM cards')
-  eve = db.execute('SELECT * FROM events')
-  pri = db.execute('SELECT * FROM prices')
+  boosters = get_boosters
+  cards = get_cards
+  events = get_events
+  prices = get_prices
 
-  slim(:admin, locals: { boosters: boo, cards: car, events: eve, prices: pri })
+  slim(:admin, locals: { boosters: boosters, cards: cards, events: events, prices: prices })
 end

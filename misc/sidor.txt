@@ -1,6 +1,6 @@
 Gambling site
 
-sidor som behöver skapas
+sidor som behöver skapas (100%)
 /
 /Login
 /signup
@@ -11,8 +11,9 @@ sidor som behöver skapas
 /events
 /prices
 
-admin can crud boosters, cards, price och events
-user can buy boosters, cards, events and redeem prices with their tokens
+Core functionality:
+admins can crud boosters, cards, prices och events
+users can buy boosters, cards, events and redeem prices with their tokens
 
 
 # TODO:
