@@ -1,6 +1,4 @@
 get('/admin') do
-  db = open_db
-
   boosters = get_boosters
   cards = get_cards
   events = get_events

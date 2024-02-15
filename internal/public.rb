@@ -15,7 +15,6 @@ post('/signup') do
   show_error("Passwords don't match...", '/signup') if password != password_confirm
 
   pwd_hash = BCrypt::Password.create(password)
-  db = open_db
   new_user(username, pwd_hash, permissions)
   user = get_user_by_name(username)
   session[:id] = user['id']
@@ -29,7 +28,6 @@ get('/login') do
 end
 
 post('/login') do
-  db = open_db
   username = params[:username]
   password = params[:password]
 

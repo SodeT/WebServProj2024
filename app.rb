@@ -16,4 +16,3 @@ require_relative 'internal/admin/boosters'
 require_relative 'internal/admin/cards'
 require_relative 'internal/admin/events'
 require_relative 'internal/admin/prices'
-

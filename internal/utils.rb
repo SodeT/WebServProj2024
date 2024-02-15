@@ -26,7 +26,6 @@ before do
 
   return if path.match(public_pattern) || path == '/'
 
-  db = open_db
   id = session[:id]
   user = get_user(id)
 

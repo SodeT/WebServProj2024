@@ -1,6 +1,5 @@
 get('/play') do
   id = session['id']
-  db = open_db
   user = get_user(id)
 
   boosters = get_user_boosters(id)
@@ -13,8 +12,6 @@ end
 
 post('/spin') do
   user_id = session['id']
-  db = open_db
-
   user = get_user(user_id)
 
   cost = 30
@@ -41,7 +38,6 @@ get('/boosters') do
 end
 
 post('/boosters/:id/buy') do
-  db = open_db
   booster_id = params[:id].to_i
   user_id = session[:id]
 
@@ -91,7 +87,6 @@ get('/prices') do
 end
 
 post('/prices/:id/buy') do
-  db = open_db
   price_id = params[:id].to_i
   user_id = session[:id]
 
