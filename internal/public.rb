@@ -1,4 +1,6 @@
 get('/') do
+  user_id = session[:id]
+  redirect('/play') unless user_id.nil? 
   slim(:home)
 end
 
@@ -7,6 +9,7 @@ get('/signup') do
 end
 
 post('/signup') do
+  session.clear
   username = params[:username]
   password = params[:password]
   password_confirm = params[:password_confirm]
@@ -28,6 +31,7 @@ get('/login') do
 end
 
 post('/login') do
+  session.clear
   username = params[:username]
   password = params[:password]
 

@@ -3,7 +3,12 @@ html lang="en"
     head
         meta charset="UTF-8"/
         meta name="viewport" content="width=device-width, initial-scale=1.0"/
-        link rel="stylesheet" href="css/style.css"/
+
+        link rel="preconnect" href="https://fonts.googleapis.com"
+        link rel="preconnect" href="https://fonts.gstatic.com" 
+        link href="https://fonts.googleapis.com/css2?family=Anta&display=swap" rel="stylesheet"
+
+        link rel="stylesheet" href="/css/style.css"/
         title Win BIG Today! 100 Free SPINS!
     body
 
@@ -20,6 +25,14 @@ html lang="en"
             a href="/events" Events
             a href="/prices" Prices
             a href="/admin" Admin
+
+        div id="account"
+            - if defined? user != nil
+                p Logged in as <span>#{user['username']}</span>
+                p Logged have <span>#{user['tokens']}</span> tokens!
+
+                form action="/logout" method="post"
+	                input type="submit" value="Logout"
 
     div id="grid-wrapper"
         == yield

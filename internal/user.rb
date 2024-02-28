@@ -1,5 +1,7 @@
 get('/play') do
   id = session['id']
+  stats = session['stats']
+  p stats
   user = get_user(id)
 
   boosters = get_user_boosters(id)
@@ -7,7 +9,7 @@ get('/play') do
   events = get_user_events(id)
   prices = get_user_prices(id)
 
-  slim(:play, locals: { user: user, boosters: boosters, cards: cards, events: events, prices: prices })
+  slim(:play, locals: { user: user, stats: stats, boosters: boosters, cards: cards, events: events, prices: prices })
 end
 
 post('/spin') do
@@ -17,24 +19,39 @@ post('/spin') do
   cost = 30
   show_error('Not enough tokens...', '/play') if user['tokens'] < cost
 
-  boosters = get_boosters(user_id)
+  boosters = get_user_boosters(user_id)
 
   total_multiplier = 1
   boosters.each do |booster|
     total_multiplier *= booster['multiplier']
   end
 
-  value = rand(0..50) * total_multiplier
+  value = (rand(0..40) - cost) * total_multiplier
 
   value *= (user['permissions'] + 1) # Casually rigging the game in favor of admins and content creators
-  value -= cost
+  spin_stats = {'multiplier' => total_multiplier, 'tokens' => value}
+  session['stats'] = spin_stats
+
   add_user_tokens(user_id, value)
   redirect('/play')
 end
 
+post('/logout') do
+  session.clear
+  redirect('/')
+end
+
+post('/buytokens') do
+  id = session['id']
+  add_user_tokens(id, 100)
+  redirect('/play')
+end
+
 get('/boosters') do
+  user_id = session[:id]
+  user = get_user(user_id)
   boosters = get_boosters
-  slim(:'boosters/index', locals: { boosters: boosters })
+  slim(:'boosters/index', locals: { user: user, boosters: boosters })
 end
 
 post('/boosters/:id/buy') do
@@ -55,13 +72,17 @@ post('/boosters/:id/buy') do
 end
 
 get('/cards') do
+  user_id = session[:id]
+  user = get_user(user_id)
   cards = get_cards
-  slim(:'cards/index', locals: { cards: cards })
+  slim(:'cards/index', locals: { user: user, cards: cards })
 end
 
 get('/events') do
+  user_id = session[:id]
+  user = get_user(user_id)
   events = get_events
-  slim(:'events/index', locals: { events: events })
+  slim(:'events/index', locals: { user: user, events: events })
 end
 
 post('/events/:id/buy') do
@@ -82,8 +103,10 @@ post('/events/:id/buy') do
 end
 
 get('/prices') do
+  user_id = session[:id]
+  user = get_user(user_id)
   data = get_prices
-  slim(:'prices/index', locals: { prices: data })
+  slim(:'prices/index', locals: { user: user, prices: data })
 end
 
 post('/prices/:id/buy') do

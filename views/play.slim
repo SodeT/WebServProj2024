@@ -24,3 +24,10 @@ p You have #{user['tokens']} tokens!
 
 form action="/spin" method="post"
 	input type="submit" value="Spin!"
+
+form action="/buytokens" method="post"
+	input type="submit" value="Buy tokens!"
+
+- if stats != nil
+	p You had a total multiplier of: <span>#{stats['multiplier']}</span>!
+	p You won a total sum of: <span>#{stats['tokens']}</span> tokens!
