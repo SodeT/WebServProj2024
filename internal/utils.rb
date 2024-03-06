@@ -24,6 +24,8 @@ before do
   admin_pattern = '\/admin'
   public_pattern = '\/(login|signup|error)'
 
+  p path
+
   return if path.match(public_pattern) || path == '/'
 
   id = session[:id]

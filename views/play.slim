@@ -1,26 +1,5 @@
 h2 Welcome #{user['username']}! Ready for some BIG WINS?
 p You have #{user['tokens']} tokens!
-#items
-	#boosters
-		h3 Your boosters:
-		- boosters.each do |booster|
-			p #{booster['name']} with multiplier #{booster['multiplier']}
-
-	#cards
-		h3 Your cards:
-		- cards.each do |card|
-			p #{card['name']} with power #{card['power']}
-
-	#events
-		h3 Your events:
-		- events.each do |event|
-			p #{event['name']} with reward #{event['reward']} and win condition #{event['condition']}
-
-	#prices
-		h3 Your prices:
-		- prices.each do |price|
-			p #{price['name']} of value #{price['value']}
-			p #{price['description']}
 
 form action="/spin" method="post"
 	input type="submit" value="Spin!"

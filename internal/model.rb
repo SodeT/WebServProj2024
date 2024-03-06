@@ -80,7 +80,7 @@ end
 # ================ CARDS ==================
 def get_cards
   db = open_db
-  db.execute('SELECT * FROM cards ORDER BY power')
+  db.execute('SELECT * FROM cards ORDER BY value')
 end
 
 def get_card(card_id)
@@ -93,9 +93,28 @@ def get_user_cards(user_id)
   db.execute('SELECT cards.* FROM cards WHERE user_id = ?', user_id)
 end
 
-def new_card(name, power)
+def get_cards_for_sale()
   db = open_db
-  db.execute('INSERT INTO cards (name, power) VALUES (?, ?)', name, power)
+  db.execute('SELECT cards.* FROM cards WHERE user_id IS NULL')
+end
+
+def set_card_owner(card_id, owner)
+  db = open_db
+  if owner == nil
+    db.execute('UPDATE cards SET user_id = NULL WHERE id = ?', card_id)
+  else
+    db.execute('UPDATE cards SET user_id = ? WHERE id = ?', owner, card_id)
+  end
+end
+
+def add_card_value(card_id, value)
+  db = open_db
+  db.execute('UPDATE cards SET value = value + ? WHERE id = ?', value, card_id)
+end
+
+def new_card(name, value)
+  db = open_db
+  db.execute('INSERT INTO cards (name, value) VALUES (?, ?)', name, value)
 end
 
 def delete_card(card_id)
@@ -103,9 +122,9 @@ def delete_card(card_id)
   db.execute('DELETE FROM cards WHERE id = ?', card_id)
 end
 
-def update_card(card_id, name, power)
+def update_card(card_id, name, value)
   db = open_db
-  db.execute('UPDATE cards SET name = ?, power = ? WHERE id = ?', name, power, card_id)
+  db.execute('UPDATE cards SET name = ?, value = ? WHERE id = ?', name, value, card_id)
 end
 
 # ================ EVENTS ==================

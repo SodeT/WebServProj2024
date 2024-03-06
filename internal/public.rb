@@ -1,6 +1,7 @@
 get('/') do
   user_id = session[:id]
-  redirect('/play') unless user_id.nil? 
+  user = get_user(user_id)
+  redirect('/play') unless user.nil? 
   slim(:home)
 end
 
@@ -15,6 +16,7 @@ post('/signup') do
   password_confirm = params[:password_confirm]
   permissions = params[:permissions].to_i
 
+  show_error('Username and password cannot be empty...', '/signup') if password.empty? || username.empty?
   show_error("Passwords don't match...", '/signup') if password != password_confirm
 
   pwd_hash = BCrypt::Password.create(password)

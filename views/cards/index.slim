@@ -1,5 +1,14 @@
 h2 Cards
+p Create cards that other users can buy, while earning you money in the process!
 
-- cards.each do |card|
+h3 Your cards:
+- your_cards.each do |card|
 	p #{card['name']}
-	p Your chard has: #{card['power']} power!
+	p Your chard has: #{card['value']} value!
+	a href="/cards/#{card['id']}/sell" Sell card
+
+h3 Cards for sale:
+- other_cards.each do |card|
+	p #{card['name']}
+	p This chard has: #{card['value']} value!
+	a href="/cards/#{card['id']}/buy" Buy card

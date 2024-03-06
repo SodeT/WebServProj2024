@@ -74,8 +74,35 @@ end
 get('/cards') do
   user_id = session[:id]
   user = get_user(user_id)
-  cards = get_cards
-  slim(:'cards/index', locals: { user: user, cards: cards })
+  your_cards = get_user_cards(user_id)
+  other_cards = get_cards_for_sale
+  slim(:'cards/index', locals: { user: user, your_cards: your_cards, other_cards: other_cards })
+end
+
+get('/cards/:id/sell') do
+  user_id = session[:id]
+  card_id = params[:id].to_i
+  card = get_card(card_id)
+
+  # add 30 card value, give 10 of it to the seller
+  add_user_tokens(user_id, card['value'] + 10)
+  add_card_value(card_id, 30)
+  set_card_owner(card_id, nil)
+  redirect('/cards')
+end
+
+get('/cards/:id/buy') do
+  user_id = session[:id]
+  card_id = params[:id].to_i
+  card = get_card(card_id)
+  user = get_user(user_id)
+
+  show_error('Someone already bought this card...') unless card['user_id'].nil?
+  show_error("You don't have enough tokens to buy this card...", '/cards') if user['tokens'] < card['value']
+
+  add_user_tokens(user_id, -card['value'])
+  set_card_owner(card_id, user_id)
+  redirect('/cards')
 end
 
 get('/events') do
