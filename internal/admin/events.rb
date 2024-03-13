@@ -2,8 +2,8 @@ post('/admin/events/new') do
   name = params['name']
   reward = params['reward'].to_i
   condition = params['condition'].to_i
-  fee = params['fee'].to_i
-  new_event(name, reward, condition, fee)
+  price = params['price'].to_i
+  new_event(name, reward, condition, price)
   redirect('/admin')
 end
 
@@ -24,7 +24,7 @@ post('/admin/events/:id/edit') do
   name = params['name']
   reward = params['reward'].to_i
   condition = params['condition'].to_i
-  fee = params['fee'].to_i
-  update_event(id, name, reward, condition, fee)
+  price = params['price'].to_i
+  update_event(id, name, reward, condition, price)
   redirect('/admin')
 end

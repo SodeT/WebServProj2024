@@ -23,7 +23,7 @@ h2 Welcome to the admin dashboard!
 		h3 Cards:
 		- cards.each do |card|
 			p name: #{card['name']}
-			p power: #{card['power']}
+			p price: #{card['price']}
 
 			a href="/admin/cards/#{card['id']}/edit" Edit
 			form action="/admin/cards/#{card['id']}/delete" method="post"
@@ -31,7 +31,7 @@ h2 Welcome to the admin dashboard!
 
 		form action="/admin/cards/new" method="post"
 			input type="text" name="name" placeholder="Name"
-			input type="number" name="power" placeholder="Power"
+			input type="number" name="price" placeholder="Price"
 			input type="submit" value="Create"
 			
 	.editable
@@ -40,7 +40,7 @@ h2 Welcome to the admin dashboard!
 			p name: #{event['name']}
 			p reward: #{event['reward']}
 			p condition: #{event['condition']}
-			p fee: #{event['fee']}
+			p price: #{event['price']}
 
 			a href="/admin/events/#{event['id']}/edit" Edit
 			form action="/admin/events/#{event['id']}/delete" method="post"
@@ -50,7 +50,7 @@ h2 Welcome to the admin dashboard!
 			input type="text" name="name" placeholder="Name"
 			input type="number" name="reward" placeholder="Reward"
 			input type="number" name="condition" placeholder="Condition"
-			input type="number" name="fee" placeholder="Fee"
+			input type="number" name="price" placeholder="Price"
 			input type="submit" value="Create"
 
 	.editable

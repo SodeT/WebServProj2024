@@ -80,7 +80,7 @@ end
 # ================ CARDS ==================
 def get_cards
   db = open_db
-  db.execute('SELECT * FROM cards ORDER BY value')
+  db.execute('SELECT * FROM cards ORDER BY price')
 end
 
 def get_card(card_id)
@@ -107,14 +107,14 @@ def set_card_owner(card_id, owner)
   end
 end
 
-def add_card_value(card_id, value)
+def add_card_value(card_id, price)
   db = open_db
-  db.execute('UPDATE cards SET value = value + ? WHERE id = ?', value, card_id)
+  db.execute('UPDATE cards SET price = price + ? WHERE id = ?', price, card_id)
 end
 
-def new_card(name, value)
+def new_card(name, price)
   db = open_db
-  db.execute('INSERT INTO cards (name, value) VALUES (?, ?)', name, value)
+  db.execute('INSERT INTO cards (name, price) VALUES (?, ?)', name, price)
 end
 
 def delete_card(card_id)
@@ -122,9 +122,9 @@ def delete_card(card_id)
   db.execute('DELETE FROM cards WHERE id = ?', card_id)
 end
 
-def update_card(card_id, name, value)
+def update_card(card_id, name, price)
   db = open_db
-  db.execute('UPDATE cards SET name = ?, value = ? WHERE id = ?', name, value, card_id)
+  db.execute('UPDATE cards SET name = ?, price = ? WHERE id = ?', name, price, card_id)
 end
 
 # ================ EVENTS ==================
@@ -161,9 +161,9 @@ def make_user_event_rel(user_id, event_id)
   db.execute('INSERT INTO user_event_rel (user_id, event_id) VALUES (?, ?)', user_id, event_id)
 end
 
-def new_event(name, reward, condition, fee)
+def new_event(name, reward, condition, price)
   db = open_db
-  db.execute('INSERT INTO events (name, reward, condition, fee) VALUES (?, ?, ?, ?)', name, reward, condition, fee)
+  db.execute('INSERT INTO events (name, reward, condition, price) VALUES (?, ?, ?, ?)', name, reward, condition, price)
 end
 
 def delete_event(event_id)
@@ -172,10 +172,10 @@ def delete_event(event_id)
   db.execute('DELETE FROM user_event_rel WHERE event_id = ?', event_id)
 end
 
-def update_event(event_id, name, reward, condition, fee)
+def update_event(event_id, name, reward, condition, price)
   db = open_db
-  db.execute('UPDATE events SET name = ?, reward = ?, condition = ?, fee = ? WHERE id = ?', name, reward, condition,
-             fee, event_id)
+  db.execute('UPDATE events SET name = ?, reward = ?, condition = ?, price = ? WHERE id = ?', name, reward, condition,
+             price, event_id)
 end
 
 # ================ PRICES ==================

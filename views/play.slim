@@ -1,11 +1,11 @@
 h2 Welcome #{user['username']}! Ready for some BIG WINS?
 p You have #{user['tokens']} tokens!
 
+img src="/img/lottery_spin.webp" alt="Image of spinning lottery wheel." id="lottery-spin"
+
 form action="/spin" method="post"
 	input type="submit" value="Spin!"
 
-form action="/buytokens" method="post"
-	input type="submit" value="Buy tokens!"
 
 - if stats != nil
 	p You had a total multiplier of: <span>#{stats['multiplier']}</span>!

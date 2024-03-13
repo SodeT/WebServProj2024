@@ -38,6 +38,8 @@ post('/login') do
   password = params[:password]
 
   user = get_user_by_name(username)
+  # Don't disclosse whether the username or password was incorrect
+  show_error('User does not exist...', '/signup') if user.nil?
 
   pwd_hash = user['pwd_hash']
 

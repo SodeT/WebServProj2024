@@ -81,3 +81,9 @@ form {
 span {
     font-weight: bold;
 }
+
+#lottery-spin {
+    width: 120px;
+    height: auto;
+    border-radius: 100%;
+}

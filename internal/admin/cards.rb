@@ -1,7 +1,7 @@
 post('/admin/cards/new') do
   name = params['name']
-  power = params['power'].to_i
-  new_card(name, power)
+  price = params['price'].to_i
+  new_card(name, price)
   redirect('/admin')
 end
 
@@ -20,7 +20,7 @@ end
 post('/admin/cards/:id/edit') do
   id = params[:id]
   name = params['name']
-  power = params['power'].to_i
-  update_card(id, name, power)
+  price = params['price'].to_i
+  update_card(id, name, price)
   redirect('/admin')
 end

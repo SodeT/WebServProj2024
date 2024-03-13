@@ -84,8 +84,10 @@ get('/cards/:id/sell') do
   card_id = params[:id].to_i
   card = get_card(card_id)
 
+  show_error("You don't own this card...", '/cards') if card['user_id'] != user_id
+
   # add 30 card value, give 10 of it to the seller
-  add_user_tokens(user_id, card['value'] + 10)
+  add_user_tokens(user_id, card['price'] + 10)
   add_card_value(card_id, 30)
   set_card_owner(card_id, nil)
   redirect('/cards')
@@ -97,10 +99,10 @@ get('/cards/:id/buy') do
   card = get_card(card_id)
   user = get_user(user_id)
 
-  show_error('Someone already bought this card...') unless card['user_id'].nil?
-  show_error("You don't have enough tokens to buy this card...", '/cards') if user['tokens'] < card['value']
+  show_error('Someone already bought this card...', '/cards') unless card['user_id'].nil?
+  show_error("You don't have enough tokens to buy this card...", '/cards') if user['tokens'] < card['price']
 
-  add_user_tokens(user_id, -card['value'])
+  add_user_tokens(user_id, -card['price'])
   set_card_owner(card_id, user_id)
   redirect('/cards')
 end
@@ -122,10 +124,10 @@ post('/events/:id/buy') do
 
   data = get_event_price(user_id, event_id)
 
-  show_error("You don't have enough tokens to buy this event...", '/events') if data['tokens'] < data['fee']
+  show_error("You don't have enough tokens to buy this event...", '/events') if data['tokens'] < data['price']
 
   make_user_event_rel(user_id, event_id)
-  add_user_tokens(user_id, -data['fee'])
+  add_user_tokens(user_id, -data['price'])
   redirect('/events')
 end
 
