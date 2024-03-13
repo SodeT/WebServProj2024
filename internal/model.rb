@@ -181,7 +181,7 @@ end
 # ================ PRICES ==================
 def get_prices
   db = open_db
-  db.execute('SELECT * FROM prices ORDER BY value')
+  db.execute('SELECT * FROM prices ORDER BY price')
 end
 
 def get_price(price_id)
@@ -199,9 +199,9 @@ def set_user_price(user_id, price_id)
   db.execute('UPDATE prices SET user_id = ? WHERE id = ?', user_id, price_id)
 end
 
-def new_price(name, value, description)
+def new_price(name, price, description)
   db = open_db
-  db.execute('INSERT INTO prices (name, value, description) VALUES (?, ?, ?)', name, value, description)
+  db.execute('INSERT INTO prices (name, price, description) VALUES (?, ?, ?)', name, price, description)
 end
 
 def delete_price(price_id)
@@ -209,7 +209,7 @@ def delete_price(price_id)
   db.execute('DELETE FROM prices WHERE id = ?', price_id)
 end
 
-def update_price(price_id, name, value, description)
+def update_price(price_id, name, price, description)
   db = open_db
-  db.execute('UPDATE prices SET name = ?, value = ?, description = ? WHERE id = ?', name, value, description, price_id)
+  db.execute('UPDATE prices SET name = ?, price = ?, description = ? WHERE id = ?', name, price, description, price_id)
 end

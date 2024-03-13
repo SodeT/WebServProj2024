@@ -3,7 +3,7 @@ h2 Redeem your tokens to get prices!
 h3 Available prices:
 
 - prices.each do |price|
-	p The #{price['name']} with a value of: #{price['value']}!
+	p The #{price['name']} with a value of: #{price['price']}!
 	p #{price['description']}
 	form action="/prices/#{price['id']}/buy" method="post"
 		input type="submit" value="Redeem!"

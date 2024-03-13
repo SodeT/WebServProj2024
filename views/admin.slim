@@ -57,7 +57,7 @@ h2 Welcome to the admin dashboard!
 		h3 Prices:
 		- prices.each do |price|
 			p name: #{price['name']}
-			p value: #{price['value']}
+			p price: #{price['price']}
 			p description: #{price['description']}
 
 			a href="/admin/prices/#{price['id']}/edit" Edit
@@ -66,7 +66,7 @@ h2 Welcome to the admin dashboard!
 
 		form action="/admin/prices/new" method="post"
 			input type="text" name="name" placeholder="Name"
-			input type="number" name="value" placeholder="Value"
+			input type="number" name="price" placeholder="Price"
 			input type="text" name="description" placeholder="Description"
 			input type="submit" value="Create"
 

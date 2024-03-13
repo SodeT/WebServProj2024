@@ -1,8 +1,8 @@
 post('/admin/prices/new') do
   name = params['name']
-  value = params['value'].to_i
+  price = params['price'].to_i
   description = params['description']
-  new_price(name, value, description)
+  new_price(name, price, description)
   redirect('/admin')
 end
 
@@ -21,8 +21,8 @@ end
 post('/admin/prices/:id/edit') do
   id = params[:id]
   name = params['name']
-  value = params['value'].to_i
+  price = params['price'].to_i
   description = params['description']
-  update_price(id, name, value, description)
+  update_price(id, name, price, description)
   redirect('/admin')
 end

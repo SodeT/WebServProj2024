@@ -146,10 +146,10 @@ post('/prices/:id/buy') do
   user = get_user(user_id)
 
   show_error('This price has already been redemeed', '/events') unless price['user_id'].nil?
-  show_error("You don't have enough tokens to redeem this price...", '/events') if user['tokens'] < price['value']
+  show_error("You don't have enough tokens to redeem this price...", '/events') if user['tokens'] < price['price']
 
   set_user_price(user_id, price_id)
-  add_user_tokens(user_id, -price['value'])
+  add_user_tokens(user_id, -price['price'])
 
   redirect('/prices')
 end
