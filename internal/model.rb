@@ -152,7 +152,7 @@ end
 
 def get_event_price(user_id, event_id)
   db = open_db
-  db.execute('SELECT users.tokens, events.fee FROM users INNER JOIN events ON events.id = ? WHERE users.id = ?',
+  db.execute('SELECT users.tokens, events.price FROM users INNER JOIN events ON events.id = ? WHERE users.id = ?',
              event_id, user_id).first
 end
 

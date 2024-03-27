@@ -16,8 +16,13 @@ post('/signup') do
   password_confirm = params[:password_confirm]
   permissions = params[:permissions].to_i
 
+  if username.length > 64 || password.length > 64 || password_confirm.length > 64
+    show_error('Input is to long...', '/signup')
+  end
+
   show_error('Username and password cannot be empty...', '/signup') if password.empty? || username.empty?
   show_error("Passwords don't match...", '/signup') if password != password_confirm
+  show_error('Username is already taken...', '/signup') unless get_user_by_name(username).nil?
 
   pwd_hash = BCrypt::Password.create(password)
   new_user(username, pwd_hash, permissions)
@@ -37,9 +42,12 @@ post('/login') do
   username = params[:username]
   password = params[:password]
 
+  if username.length > 64 || password.length > 64 
+    show_error('Input is to long...', '/signup')
+  end
+
   user = get_user_by_name(username)
-  # Don't disclosse whether the username or password was incorrect
-  show_error('User does not exist...', '/signup') if user.nil?
+  show_error('Incorrect credentials...', '/login') if user.nil?
 
   pwd_hash = user['pwd_hash']
 
@@ -48,7 +56,7 @@ post('/login') do
     session[:username] = user['username']
     redirect('/play')
   end
-  show_error('Incorrect password...', '/login')
+  show_error('Incorrect credentials...', '/login')
 end
 
 get('/error') do
