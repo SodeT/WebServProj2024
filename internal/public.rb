@@ -1,7 +1,7 @@
 get('/') do
   user_id = session[:id]
   user = get_user(user_id)
-  redirect('/play') unless user.nil? 
+  redirect('/play') unless user.nil?
   slim(:home)
 end
 
@@ -42,20 +42,22 @@ post('/login') do
   username = params[:username]
   password = params[:password]
 
-  if username.length > 64 || password.length > 64 
-    show_error('Input is to long...', '/signup')
-  end
+  show_error('Input is to long...', '/signup') if username.length > 64 || password.length > 64
 
   user = get_user_by_name(username)
   show_error('Incorrect credentials...', '/login') if user.nil?
+
+  sleep(user['failed_login'].to_i * 30) if user['failed_login'] >= 3
 
   pwd_hash = user['pwd_hash']
 
   if BCrypt::Password.new(pwd_hash) == password
     session[:id] = user['id']
     session[:username] = user['username']
+    set_user_login_attempts(user['id'], 0)
     redirect('/play')
   end
+  set_user_login_attempts(user['id'], user['failed_login'].to_i + 1)
   show_error('Incorrect credentials...', '/login')
 end
 

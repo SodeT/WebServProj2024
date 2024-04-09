@@ -5,38 +5,79 @@ def open_db
 end
 
 # ================ USERS ==================
+
+# Creates a new user in the database
+# @param username [String] the username of the user
+# @param pwd_hash [String] the hashed password
+# @param permissions [Integer] the permisions the user will get
+# @return [Nil]
 def new_user(username, pwd_hash, permissions)
   db = open_db
   db.execute('INSERT INTO users (username, pwd_hash, permissions) VALUES (?,?,?)', username, pwd_hash, permissions)
 end
 
+# Gets the user with the gived ID
+# @param user_id [Integer] the id of the requested user
+# @return [Hash] a hash representation of the requested users row in the database
 def get_user(user_id)
   db = open_db
   db.execute('SELECT * FROM users WHERE id = ?', user_id).first
 end
 
+# Gets the user with the gived username
+# @param username [String] the username of the requested user
+# @return [Hash] a hash representation of the requested users row in the database
 def get_user_by_name(username)
   db = open_db
   db.execute('SELECT * FROM users WHERE username = ?', username).first
 end
 
-# FIXME: This function is probubually used incorrectly
+# Adds an amount of tokens to a user
+# @param user_id [Integer] the id of the requested user
+# @param amount [Integer] the amount of tokens to be added to the user
+# @return [Nil]
 def add_user_tokens(user_id, amount)
   db = open_db
   db.execute('UPDATE users SET tokens = tokens + ? WHERE id = ?', amount, user_id)
 end
 
+# Gets the number of failed login attempts for the given user
+# @param user_id [Integer] the id of the requested user
+# @return [Integer] the number of failed login attempts
+def get_user_login_attempts(user_id)
+  db = open_db
+  db.execute('SELECT failed_login FROM users WHERE id = ?', user_id)
+end
+
+# Sets the number of failed login attempts for the given user
+# @param user_id [Integer] the id of the requested user
+# @param attempts [Integer] the number of failed concecutive login attemps
+# @return [Nil]
+def set_user_login_attempts(user_id, attempts)
+  db = open_db
+  db.execute('UPDATE users SET failed_login = ? WHERE id = ?', attempts, user_id)
+end
+
 # ================ BOOSTERS ==================
+
+# Gets every available booster
+# @return [Array] an array of hashes containing the database rows for every booster
 def get_boosters
   db = open_db
   db.execute('SELECT * FROM boosters ORDER BY price')
 end
 
+# Gets a booster specified by its ID
+# @param booster_id [Integer] the id of the requested booster
+# @return [Hash] a hash containing the database row for the given booster
 def get_booster(booster_id)
   db = open_db
   db.execute('SELECT * FROM boosters WHERE id = ?', booster_id).first
 end
 
+# Gets all boosters that are the specified user owns
+# @param user_id [Integer] the id of the requested user
+# @return [Array] an array of hashes containing the database rows for the user owned booster
 def get_user_boosters(user_id)
   db = open_db
   db.execute(
