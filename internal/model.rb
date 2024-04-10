@@ -115,7 +115,7 @@ module Model
 
   # Creates a new booster
   # @param name [String] the name of the new booster
-  # @param nultiplier [Integer] the multiplier of the new booster
+  # @param multiplier [Integer] the multiplier of the new booster
   # @param price [Integer] the price of the new booster
   def new_booster(name, multiplier, price)
     db = open_db
