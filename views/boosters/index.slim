@@ -1,8 +1,10 @@
 h2 Buy boosters to increase your winnings!
+p A booster multiplies your earnings at the wheel (for better or worse)
 
 h3 Available boosters:
 - boosters.each do |booster|
-	p #{booster['name']}
-	p #{booster['multiplier']}X
+	p Name: #{booster['name']}
+	p Multiplication: #{booster['multiplier']}X
+	p Price: #{booster['price']} tokens
 	form action="/boosters/#{booster['id']}/buy" method="post"
 		input type="submit" value="Purchase!"

@@ -1,3 +1,4 @@
+# Gets all content and displays it on the admin dashboard
 get('/admin') do
   boosters = get_boosters
   cards = get_cards

@@ -1,3 +1,4 @@
+# Displays the page where users can spin the casino wheel and see their purchased items
 get('/play') do
   id = session['id']
   stats = session['stats']
@@ -12,6 +13,7 @@ get('/play') do
   slim(:play, locals: { user: user, stats: stats, boosters: boosters, cards: cards, events: events, prices: prices })
 end
 
+# Handles the logic behind the casino wheel
 post('/spin') do
   user_id = session['id']
   user = get_user(user_id)
@@ -36,17 +38,20 @@ post('/spin') do
   redirect('/play')
 end
 
+# Logs out the current user
 post('/logout') do
   session.clear
   redirect('/')
 end
 
+# buys tokens for the current user
 post('/buytokens') do
   id = session['id']
   add_user_tokens(id, 100)
   redirect('/play')
 end
 
+# Displays the booster page, where the user can buy boosters
 get('/boosters') do
   user_id = session[:id]
   user = get_user(user_id)
@@ -54,6 +59,7 @@ get('/boosters') do
   slim(:'boosters/index', locals: { user: user, boosters: boosters })
 end
 
+# Handles the purchases of boosters
 post('/boosters/:id/buy') do
   booster_id = params[:id].to_i
   user_id = session[:id]
@@ -71,6 +77,7 @@ post('/boosters/:id/buy') do
   redirect('/boosters')
 end
 
+# Displays the cards page where users can buy and sell cards
 get('/cards') do
   user_id = session[:id]
   user = get_user(user_id)
@@ -79,6 +86,7 @@ get('/cards') do
   slim(:'cards/index', locals: { user: user, your_cards: your_cards, other_cards: other_cards })
 end
 
+# Handles the selling of a users cards
 get('/cards/:id/sell') do
   user_id = session[:id]
   card_id = params[:id].to_i
@@ -93,6 +101,7 @@ get('/cards/:id/sell') do
   redirect('/cards')
 end
 
+# Handels the buying of cards
 get('/cards/:id/buy') do
   user_id = session[:id]
   card_id = params[:id].to_i
@@ -107,6 +116,7 @@ get('/cards/:id/buy') do
   redirect('/cards')
 end
 
+# Displays the current events and users can participate in these events for a fee
 get('/events') do
   user_id = session[:id]
   user = get_user(user_id)
@@ -114,6 +124,7 @@ get('/events') do
   slim(:'events/index', locals: { user: user, events: events })
 end
 
+# Handels the purchase of events
 post('/events/:id/buy') do
   event_id = params[:id].to_i
   user_id = session[:id]
@@ -131,6 +142,7 @@ post('/events/:id/buy') do
   redirect('/events')
 end
 
+# Displays the price page where users can redeem prices
 get('/prices') do
   user_id = session[:id]
   user = get_user(user_id)
@@ -138,6 +150,7 @@ get('/prices') do
   slim(:'prices/index', locals: { user: user, prices: data })
 end
 
+# Handels the buying of prices
 post('/prices/:id/buy') do
   price_id = params[:id].to_i
   user_id = session[:id]

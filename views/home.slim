@@ -1,3 +1,9 @@
 h2 Spin the wheel!
 
-button type="button" Spin Me!
+img src="/img/lottery_spin.webp" alt="Image of spinning lottery wheel." id="lottery-spin"
+form action="/fakespin" method="post"
+	input type="submit" value="Spin!"
+
+- if fakespin != nil
+	p You won a total sum of: <span>#{fakespin}</span> tokens!
+	a href="/signup" Signup to claim your tokens!

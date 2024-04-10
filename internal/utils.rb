@@ -8,10 +8,16 @@ permissions = {
   'admin' => 2
 }
 
+# An internal helper function that globbs paths together separated by '|'
+# @param paths [Array] an array of paths
+# @return [String] a string of every path separated by a '|'
 def all_of(*paths)
   /(#{paths.join('|')})/
 end
 
+# A helper function that sets some error related session tokens and redirects the user to the error page
+# @param desc [String] a description of the error
+# @param url [String] the url that will lead the user back on track
 def show_error(desc, url)
   session[:error] = desc
   session[:url] = url
@@ -22,7 +28,7 @@ end
 before do
   path = request.path_info
   admin_pattern = '\/admin'
-  public_pattern = '\/(login|signup|error)'
+  public_pattern = '\/(login|signup|fakespin|error)'
 
   p path
 

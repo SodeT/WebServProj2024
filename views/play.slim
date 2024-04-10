@@ -3,10 +3,33 @@ p You have #{user['tokens']} tokens!
 
 img src="/img/lottery_spin.webp" alt="Image of spinning lottery wheel." id="lottery-spin"
 
+p Price of spin: 30 tokens
 form action="/spin" method="post"
 	input type="submit" value="Spin!"
-
 
 - if stats != nil
 	p You had a total multiplier of: <span>#{stats['multiplier']}</span>!
 	p You won a total sum of: <span>#{stats['tokens']}</span> tokens!
+
+#items
+	h2 Your items
+	.items
+		h3 Your boosters:
+		- boosters.each do |booster|
+			p #{booster['name']} with multiplier #{booster['multiplier']}
+
+	.items
+		h3 Your cards:
+		- cards.each do |card|
+			p #{card['name']} of value #{card['price']}
+
+	.items
+		h3 Your events:
+		- events.each do |event|
+			p #{event['name']} with reward #{event['reward']} and win condition #{event['condition']}
+
+	.items
+		h3 Your prices:
+		- prices.each do |price|
+			p #{price['name']} with a value of #{price['price']} tokens
+

@@ -1,14 +1,19 @@
+# Displays the home page but redirects to the /play page if the user is logged in
+# it also has a fake casino wheel to lure new users to signup
 get('/') do
   user_id = session[:id]
   user = get_user(user_id)
   redirect('/play') unless user.nil?
-  slim(:home)
+  fakespin = session['fakespin']
+  slim(:home, locals: { fakespin: fakespin })
 end
 
+# Displays the signup page
 get('/signup') do
   slim(:'account/signup')
 end
 
+# Handles the signup page
 post('/signup') do
   session.clear
   username = params[:username]
@@ -33,10 +38,12 @@ post('/signup') do
   redirect('/play')
 end
 
+# Displays the login page
 get('/login') do
   slim(:'account/login')
 end
 
+# Handles the login page
 post('/login') do
   session.clear
   username = params[:username]
@@ -61,8 +68,15 @@ post('/login') do
   show_error('Incorrect credentials...', '/login')
 end
 
+# Displays an error and has a hyperlink refering the user back to where they came
 get('/error') do
   err = session[:error]
   url = session[:url]
   slim(:error, locals: { error: err, url: url })
+end
+
+# Handles the fake casino wheel on the home page
+post('/fakespin') do
+  session['fakespin'] = rand(1_000_000..999_999_999)
+  redirect('/')
 end

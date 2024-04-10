@@ -5,7 +5,6 @@ require 'slim'
 require 'sqlite3'
 require 'bcrypt'
 
-# this is trash design but atleast it is structured
 require_relative 'internal/model'
 require_relative 'internal/utils'
 require_relative 'internal/public'
