@@ -270,6 +270,14 @@ module Model
     db.execute('INSERT INTO user_event_rel (user_id, event_id) VALUES (?, ?)', user_id, event_id)
   end
 
+  # Deletes a user event relation
+  # @param user_id [Integer] the users id
+  # @param event_id [Integer] the event id
+  def delete_user_event_rel(user_id, event_id)
+    db = open_db
+    db.execute('DELETE FROM user_event_rel WHERE user_id = ? AND event_id = ?', user_id, event_id)
+  end
+
   # creates a new event
   # @param name [string] the event name
   # @param reward [Integer] the reward of the event

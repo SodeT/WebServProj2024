@@ -28,13 +28,21 @@ post('/spin') do
     total_multiplier *= booster['multiplier']
   end
 
-  value = (rand(0..40) - cost) * total_multiplier
-
+  value = rand(0..40) * total_multiplier
   value *= (user['permissions'] + 1) # Casually rigging the game in favor of admins and content creators
+
+  events = get_user_events(user_id)
+  events.each do |event| 
+    if event['condition'] < value
+      value += event['reward']
+      delete_user_event_rel(user_id, event['id'])
+    end
+  end
+
   spin_stats = {'multiplier' => total_multiplier, 'tokens' => value}
   session['stats'] = spin_stats
 
-  add_user_tokens(user_id, value)
+  add_user_tokens(user_id, value - cost)
   redirect('/play')
 end
 
@@ -129,7 +137,7 @@ post('/events/:id/buy') do
   event_id = params[:id].to_i
   user_id = session[:id]
 
-  result = get_user_booster_rel(user_id, event_id)
+  result = get_user_events_rel(user_id, event_id)
 
   show_error('You already own this event...', '/events') unless result.empty?
 

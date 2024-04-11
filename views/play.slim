@@ -8,8 +8,9 @@ form action="/spin" method="post"
 	input type="submit" value="Spin!"
 
 - if stats != nil
-	p You had a total multiplier of: <span>#{stats['multiplier']}</span>!
-	p You won a total sum of: <span>#{stats['tokens']}</span> tokens!
+	p You had a multiplier of: <span>#{stats['multiplier']}</span>!
+	p You won: <span>#{stats['tokens']}</span> tokens!
+
 
 #items
 	h2 Your items
